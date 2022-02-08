@@ -1,0 +1,32 @@
+*{
+    box-sizing: content-box;
+}
+body{
+    background-color: #f8f8f8;
+    
+}
+table{
+    height: 25rem;
+    table-layout: fixed;
+    
+}
+.container{
+    display: flex;
+    justify-content: center;
+    margin-top: 10rem;
+    height: 100vh;
+    padding: 0;
+}
+td{
+    border: 1px solid black;
+    text-overflow: clip;
+    overflow: hidden;
+    min-height: max-content; 
+}
+
+i{
+    z-index: 55;
+    position:absolute;
+    margin: auto;
+}
+
