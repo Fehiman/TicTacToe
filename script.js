@@ -10,57 +10,94 @@ var userHamle = [];
 
 var computerHamle = [];
 
-var win;
+var playerWin;
 
 var winStr = "123,456,789,159,147,258,369,357";
 
+var winStr2 = "123,456,789,159,147,258,369,357";
+
+var computerWin = winStr2.split(',')
+
+var lengths2 = computerWin.map(function (item) {
+    /*Permutasyonların uzunluğunu bul.*/
+    return item.length
+})
 
 td.forEach(function (item) {
     item.addEventListener('click', function (e) {
 
         user = e.target;
-        var userId = Number(user.getAttribute('id')); 
+        var userId = Number(user.getAttribute('id')); /*Tıkladığın hücrenin idsini al.  */
 
-        if (playable.includes(userId)) { 
+        if (playable.includes(userId)) {
+            /*Tıklanan hücre oynanabilir mi?*/
             var j = 0;
+            var k = 0;
             playable = playable.replace(userId, '')
-            user.innerHTML = x;  
-            userHamle.push(userId); 
+            user.innerHTML = x; /*Kullanıcı hamlesini yaptı*/
+            userHamle.push(userId); /*Kullanıcın hamlelerini kaydet.*/
 
-            while (j > -1) { 
+
+
+            while (j > -1) {
+                /*Kazanılan permutasyonlardan oynananları bul ve çıkar. */
                 j = winStr.search(userId)
                 winStr = winStr.substring(0, j) + winStr.substring(j + 1, winStr.length)
             }
 
-            win = winStr.split(',')
+            playerWin = winStr.split(',')
 
-            var lengths = win.map(function (item) { 
+            var lengths = playerWin.map(function (item) {
+                /*Permutasyonların uzunluğunu bul.*/
                 return item.length
             })
-            
-            if (playable.length > 0) { 
 
-                var i = playable.charAt(Math.floor(Math.random() * playable.length)); 
+            if (playable.length > 0) {
+                /*Oynanabilecek hücre kaldı mı?*/
 
-                for (var z = 0; z < win.length; z++) { /* */
-                    if (lengths[z] == 1 && playable.includes(win[z])) { 
-                        i = win[z]
+                var i = playable.charAt(Math.floor(Math.random() * playable.length)); /*Bilgisayar random oyna.*/
+                console.log(i)
+
+                for (var z = 0; z < playerWin.length; z++) {
+                    if (lengths[z] == 1 && playable.includes(playerWin[z])) {
+                        /*Oyuncunun kazanmasını sağlayan hücreyi bul ve hücre hale oynanabilir mi? */
+                        i = playerWin[z];
+                        console.log('a')
                     }
                 }
 
+                for (var z = 0; z < computerWin.length; z++) {
+                    if (lengths2[z] == 1 && playable.includes(computerWin[z])) {
+                        i = computerWin[z];
+                        console.log('b')
+                    }
+                }
+
+                while (k > -1) {
+                    k = winStr2.search(i)
+                    winStr2 = winStr2.substring(0, k) + winStr2.substring(k + 1, winStr2.length)
+                }
+
+                computerWin = winStr2.split(',')
+                
+                lengths2 = computerWin.map(function (item) {
+                    /*Permutasyonların uzunluğunu bul.*/
+                    return item.length
+                })
+
                 computer = document.getElementById(i)
-                computer.innerHTML = o; 
+                computer.innerHTML = o; /*Bilgisayara hamlesini yaptır. */
                 computerHamle.push(i);
                 playable = playable.replace(i, '')
             }
         } else {
-            alert('Yanlış Hamle') 
+            alert('Yanlış Hamle') /* Dolu hücreyse uyar. */
         }
 
         var userMove = userHamle.sort().join('');
         var computerMove = computerHamle.sort().join('');
 
-        if (/123/.test(userMove) || 
+        if (/123/.test(userMove) || /*Oyuncu kazandı mı?*/
             /456/.test(userMove) ||
             /789/.test(userMove) ||
             /1/.test(userHamle) &&
@@ -79,7 +116,9 @@ td.forEach(function (item) {
             /5/.test(userHamle) &&
             /7/.test(userHamle)) {
             alert('Kazandın!')
-        } else if (/123/.test(computerMove) || 
+            document.location.reload();
+
+        } else if (/123/.test(computerMove) || /* Bilgisayar kazandı mı? */
             /456/.test(computerMove) ||
             /789/.test(computerMove) ||
             /1/.test(computerHamle) &&
@@ -98,8 +137,10 @@ td.forEach(function (item) {
             /5/.test(computerHamle) &&
             /7/.test(computerHamle)) {
             alert('Kaybettin!')
-        } else if (playable.length == 0) { 
+            document.location.reload();
+        } else if (playable.length == 0) {
             alert('Berabere..')
+            document.location.reload();
         }
     })
 });
